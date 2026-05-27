@@ -15,13 +15,13 @@ export default function FAQ({ faqs }: FAQProps) {
   };
 
   return (
-    <section 
-      id="faq" 
+    <section
+      id="faq"
       className="py-24 border-t border-[#E5E5E5] bg-[#FFFFFF]"
     >
       <div className="max-w-[1100px] mx-auto px-6 md:px-12">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -39,23 +39,23 @@ export default function FAQ({ faqs }: FAQProps) {
         </motion.div>
 
         {/* FAQ Accordion List with initial scroll reveals */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-[800px] mr-auto space-y-0" 
+          className="max-w-[800px] mr-auto space-y-0"
           id="faq-accordion-container"
         >
           {faqs.filter(faq => faq.isVisible !== false).map((faq) => {
             const isOpen = openId === faq.id;
             return (
-              <div 
-                key={faq.id} 
+              <div
+                key={faq.id}
                 className="border-b border-[#E5E5E5]"
                 id={`faq-item-${faq.id}`}
               >
-                <div 
+                <div
                   onClick={() => toggleAccordion(faq.id)}
                   className="w-full flex justify-between items-center py-6 cursor-pointer select-none group focus:outline-none"
                   style={{ minHeight: "44px" }}
@@ -65,9 +65,9 @@ export default function FAQ({ faqs }: FAQProps) {
                   <h3 className="font-sans font-medium text-base text-[#0A0A0A] group-hover:opacity-75 transition-opacity duration-200">
                     {faq.question}
                   </h3>
-                  
+
                   {/* Plus icon toggle on the right - rotates on open */}
-                  <motion.div 
+                  <motion.div
                     animate={{ rotate: isOpen ? 135 : 0 }}
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="p-1 rounded-full text-[#0A0A0A] ml-4 shrink-0"
@@ -79,7 +79,7 @@ export default function FAQ({ faqs }: FAQProps) {
                 {/* Animated Answer Body */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
-                    <motion.div 
+                    <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
