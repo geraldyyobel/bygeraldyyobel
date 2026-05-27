@@ -1,0 +1,6 @@
+{
+  "name": "Stelvio Minimalist Portfolio",
+  "description": "A Swiss-style minimalist personal portfolio website built with clean grid layout and typography.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
