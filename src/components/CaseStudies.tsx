@@ -28,10 +28,12 @@ export default function CaseStudies({ projects }: CaseStudiesProps) {
   // Get unique categories
   const categories = ["All", ...Array.from(new Set(projects.map((p) => p.category)))];
 
+  const visibleProjects = projects.filter(p => p.isVisible !== false);
+  
   // Filter projects by category
   const filteredProjects = selectedCategory === "All"
-    ? projects
-    : projects.filter((p) => p.category === selectedCategory);
+    ? visibleProjects
+    : visibleProjects.filter((p) => p.category === selectedCategory);
 
   // Limit home view to maximum of 6 filtered projects
   const displayedProjects = filteredProjects.slice(0, 6);

@@ -62,7 +62,7 @@ export default function Services({ services }: ServicesProps) {
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
           id="services-grid"
         >
-          {services.map((service) => (
+          {services.filter(s => s.isVisible !== false).map((service) => (
             <motion.div 
               key={service.id}
               variants={serviceVariants}

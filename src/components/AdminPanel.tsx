@@ -1104,9 +1104,27 @@ export default function AdminPanel({
 
                         {selectedProject && (
                           <div className="bg-neutral-50/50 p-6 border border-[#E5E5E5] space-y-5 rounded-[2px]" id={`nested-editor-${selectedProject.id}`}>
-                            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block border-b border-[#E5E5E5] pb-2 mb-2">
-                              Configure Target Parameters
-                            </span>
+                            <div className="flex justify-between items-center border-b border-[#E5E5E5] pb-2 mb-2">
+                              <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block">
+                                Configure Target Parameters
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[9px] text-[#6B6B6B] uppercase font-bold">Visible</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleProjectFieldChange(selectedProject.id, "isVisible", selectedProject.isVisible === false ? true : false)}
+                                  className={`relative inline-flex h-4 w-7 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                    selectedProject.isVisible !== false ? 'bg-[#0A0A0A]' : 'bg-[#E5E5E5]'
+                                  }`}
+                                >
+                                  <span
+                                    className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow-xs transition duration-200 ease-in-out ${
+                                      selectedProject.isVisible !== false ? 'translate-x-3' : 'translate-x-0'
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+                            </div>
 
                             {/* Case Project Title */}
                             <div className="flex flex-col space-y-1.5">
@@ -1416,9 +1434,27 @@ export default function AdminPanel({
 
                         {selectedService && (
                           <div className="bg-neutral-50/50 p-6 border border-[#E5E5E5] space-y-5 rounded-[2px]" id={`nested-service-editor-${selectedService.id}`}>
-                            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block border-b border-[#E5E5E5] pb-2 mb-2">
-                              Configure Target Parameters
-                            </span>
+                            <div className="flex justify-between items-center border-b border-[#E5E5E5] pb-2 mb-2">
+                              <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block">
+                                Configure Target Parameters
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[9px] text-[#6B6B6B] uppercase font-bold">Visible</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleServiceFieldChange(selectedService.id, "isVisible", selectedService.isVisible === false ? true : false)}
+                                  className={`relative inline-flex h-4 w-7 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                    selectedService.isVisible !== false ? 'bg-[#0A0A0A]' : 'bg-[#E5E5E5]'
+                                  }`}
+                                >
+                                  <span
+                                    className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow-xs transition duration-200 ease-in-out ${
+                                      selectedService.isVisible !== false ? 'translate-x-3' : 'translate-x-0'
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+                            </div>
 
                             {/* Service name */}
                             <div className="flex flex-col space-y-1.5">
@@ -1563,9 +1599,27 @@ export default function AdminPanel({
 
                         {selectedExperience && (
                           <div className="bg-neutral-50/50 p-6 border border-[#E5E5E5] space-y-5 rounded-[2px]" id={`nested-exp-editor-${selectedExperience.id}`}>
-                            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block border-b border-[#E5E5E5] pb-2 mb-2">
-                              Work Parameters
-                            </span>
+                            <div className="flex justify-between items-center border-b border-[#E5E5E5] pb-2 mb-2">
+                              <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block">
+                                Work Parameters
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[9px] text-[#6B6B6B] uppercase font-bold">Visible</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleExperienceFieldChange(selectedExperience.id, "isVisible", selectedExperience.isVisible === false ? true : false)}
+                                  className={`relative inline-flex h-4 w-7 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                    selectedExperience.isVisible !== false ? 'bg-[#0A0A0A]' : 'bg-[#E5E5E5]'
+                                  }`}
+                                >
+                                  <span
+                                    className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow-xs transition duration-200 ease-in-out ${
+                                      selectedExperience.isVisible !== false ? 'translate-x-3' : 'translate-x-0'
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+                            </div>
 
                             {/* Role */}
                             <div className="flex flex-col space-y-1.5">
@@ -1716,9 +1770,27 @@ export default function AdminPanel({
 
                         {selectedFaq && (
                           <div className="bg-neutral-50/50 p-6 border border-[#E5E5E5] space-y-5 rounded-[2px]" id={`nested-faq-editor-${selectedFaq.id}`}>
-                            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block border-b border-[#E5E5E5] pb-2 mb-2">
-                              FAQ Fields
-                            </span>
+                            <div className="flex justify-between items-center border-b border-[#E5E5E5] pb-2 mb-2">
+                              <span className="font-mono text-[10.5px] uppercase tracking-widest text-[#0A0A0A] font-extrabold block">
+                                FAQ Fields
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-mono text-[9px] text-[#6B6B6B] uppercase font-bold">Visible</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleFaqFieldChange(selectedFaq.id, "isVisible", selectedFaq.isVisible === false ? true : false)}
+                                  className={`relative inline-flex h-4 w-7 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                    selectedFaq.isVisible !== false ? 'bg-[#0A0A0A]' : 'bg-[#E5E5E5]'
+                                  }`}
+                                >
+                                  <span
+                                    className={`pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow-xs transition duration-200 ease-in-out ${
+                                      selectedFaq.isVisible !== false ? 'translate-x-3' : 'translate-x-0'
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+                            </div>
 
                             {/* Question */}
                             <div className="flex flex-col space-y-1.5">
@@ -2253,7 +2325,7 @@ export default function AdminPanel({
                               onDragStart={(e) => handleDragStart(e, "projects", idx)}
                               onDragOver={handleDragOver}
                               onDrop={(e) => handleDrop(e, "projects", idx)}
-                              className={`group flex flex-col cursor-pointer transition-all duration-300 text-left relative ${draggedItem?.type === 'projects' && draggedItem.index === idx ? 'opacity-50' : ''}`}
+                              className={`group flex flex-col cursor-pointer transition-all duration-300 text-left relative ${draggedItem?.type === 'projects' && draggedItem.index === idx ? 'opacity-50' : ''} ${p.isVisible === false ? 'opacity-30 grayscale' : ''}`}
                             >
                               {/* Image Container with Absolute Index Badge */}
                               <div 
@@ -2340,7 +2412,7 @@ export default function AdminPanel({
                               isChosen 
                                 ? "border-[#0A0A0A] bg-neutral-50 shadow-xs" 
                                 : "border-neutral-200 hover:border-neutral-400"
-                            }`}
+                            } ${s.isVisible === false ? 'opacity-30 grayscale' : ''}`}
                           >
                             <div className="flex gap-3">
                               <div className="w-10 h-10 rounded-[2px] bg-neutral-100 flex items-center justify-center font-sans text-lg border border-neutral-200 shrink-0">
@@ -2399,7 +2471,7 @@ export default function AdminPanel({
                               isChosen
                                 ? "border-[#0A0A0A] bg-neutral-50"
                                 : "border-neutral-100 hover:border-neutral-300"
-                            }`}
+                            } ${exp.isVisible === false ? 'opacity-30 grayscale' : ''}`}
                           >
                             <span className="font-mono text-[9px] uppercase text-[#6B6B6B] block mb-1">
                               {exp.years}
@@ -2461,7 +2533,7 @@ export default function AdminPanel({
                               draggedItem?.type === 'faqs' && draggedItem.index === idx ? 'opacity-50 ' : ''
                             }${
                               isChosen ? "border-[#0A0A0A]" : "border-neutral-100 hover:border-neutral-300"
-                            } ${isPreviewOpen ? "bg-neutral-50/55" : ""}`}
+                            } ${isPreviewOpen ? "bg-neutral-50/55" : ""} ${faq.isVisible === false ? 'opacity-30 grayscale' : ''}`}
                           >
                             <div className="flex justify-between items-center">
                               <span className="font-sans font-bold text-xs text-[#0A0A0A] line-clamp-1 pr-4">

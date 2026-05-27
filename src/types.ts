@@ -12,6 +12,7 @@ export interface Project {
   gallery?: string[];
   originalColor?: boolean;
   tags?: string;
+  isVisible?: boolean;
 }
 
 export interface Service {
@@ -21,6 +22,7 @@ export interface Service {
   tech: string;
   duration: string;
   description: string;
+  isVisible?: boolean;
 }
 
 export interface ExperienceItem {
@@ -30,12 +32,14 @@ export interface ExperienceItem {
   years: string;
   desc?: string;
   logoUrl?: string;
+  isVisible?: boolean;
 }
 
 export interface FAQItem {
   id: string;
   question: string;
   answer: string;
+  isVisible?: boolean;
 }
 
 export interface HeroContent {

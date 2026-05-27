@@ -62,7 +62,7 @@ export default function Experience({ experiences }: ExperienceProps) {
           className="space-y-0" 
           id="experience-list"
         >
-          {experiences.map((exp) => (
+          {experiences.filter(exp => exp.isVisible !== false).map((exp) => (
             <motion.div 
               key={exp.id} 
               variants={itemVariants}

@@ -47,7 +47,7 @@ export default function FAQ({ faqs }: FAQProps) {
           className="max-w-[800px] mr-auto space-y-0" 
           id="faq-accordion-container"
         >
-          {faqs.map((faq) => {
+          {faqs.filter(faq => faq.isVisible !== false).map((faq) => {
             const isOpen = openId === faq.id;
             return (
               <div 
