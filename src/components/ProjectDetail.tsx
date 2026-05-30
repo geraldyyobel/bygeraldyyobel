@@ -24,6 +24,16 @@ export default function ProjectDetail({
 
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
+  const getDemoHost = (urlStr?: string) => {
+    if (!urlStr) return "DEMO-SANDBOX.STELVIO";
+    try {
+      const formatted = urlStr.includes("://") ? urlStr : `https://${urlStr}`;
+      return new URL(formatted).hostname || "DEMO-SANDBOX.STELVIO";
+    } catch {
+      return "DEMO-SANDBOX.STELVIO";
+    }
+  };
+
   // Close with escape key
   useEffect(() => {
     if (!activeImage) return;
@@ -169,7 +179,7 @@ export default function ProjectDetail({
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <span className="font-mono text-[9px] text-[#6B6B6B] block mt-2 text-center">
-                HOST AT // {project.demoUrl ? new URL(project.demoUrl).hostname : "DEMO-SANDBOX.STELVIO"}
+                HOST AT // {getDemoHost(project.demoUrl)}
               </span>
             </div>
           </div>

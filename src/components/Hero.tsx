@@ -29,13 +29,13 @@ export default function Hero({ content }: HeroProps) {
   };
 
   return (
-    <section 
+    <section
       id="hero"
       className="relative min-h-screen w-full flex flex-col justify-center items-center bg-[#FFFFFF] pt-16 overflow-hidden"
     >
       <div className="w-full max-w-[1100px] px-6 md:px-12 flex flex-col justify-center text-left">
         {/* Uppercase Small Label */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...transitionSettings, delay: 0.1 }}
@@ -47,7 +47,7 @@ export default function Hero({ content }: HeroProps) {
         </motion.div>
 
         {/* Hero Headline */}
-        <motion.h1 
+        <motion.h1
           id="hero-headline"
           key={content.headline} // Key ensures re-animation when CMS content updates
           initial={{ opacity: 0, y: 24 }}
@@ -60,7 +60,7 @@ export default function Hero({ content }: HeroProps) {
         </motion.h1>
 
         {/* Hero Description */}
-        <motion.p 
+        <motion.p
           id="hero-subtext"
           key={content.companyName + content.freelanceMonth + (content.bannerText || "")}
           initial={{ opacity: 0, y: 20 }}
@@ -80,7 +80,7 @@ export default function Hero({ content }: HeroProps) {
 
 
         {/* Hero CTAs */}
-        <motion.div 
+        <motion.div
           id="hero-actions"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,20 +98,20 @@ export default function Hero({ content }: HeroProps) {
             View My Work
           </motion.a>
           <motion.a
-            href="#work"
+            href="#contact"
             whileHover={{ scale: 1.01, backgroundColor: "#0A0A0A", color: "#FFFFFF" }}
             whileTap={{ scale: 0.99 }}
             className="flex items-center justify-center bg-transparent text-[#0A0A0A] font-sans font-medium text-sm px-8 py-4 border border-[#0A0A0A] transition-all duration-200 group"
             style={{ minHeight: "48px" }}
             id="btn-work-gallery"
           >
-            Work Gallery 
+            Contact Me
             <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200" />
           </motion.a>
         </motion.div>
 
         {/* Minimal Scroll Indicator */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...transitionSettings, delay: 0.8 }}
@@ -120,7 +120,7 @@ export default function Hero({ content }: HeroProps) {
           <span className="font-mono text-[10px] uppercase tracking-wider text-[#6B6B6B]">
             Scroll to view
           </span>
-          <motion.span 
+          <motion.span
             className="w-1 h-3 bg-[#6B6B6B] block"
             animate={{ y: [0, 4, 0] }}
             transition={{

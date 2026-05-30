@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import AdminPanel from "./components/AdminPanel";
 import ProjectDetail from "./components/ProjectDetail";
 import AllProjects from "./components/AllProjects";
-import { HeroContent, Project, Service, ExperienceItem, FAQItem, AboutContent, ContactContent, SectionVisibility, SocialLink, SiteConfig } from "./types";
+import { useSupabaseCMS } from "./hooks/useSupabaseCMS";
 import { 
   PROJECTS as DEFAULT_PROJECTS, 
   SERVICES as DEFAULT_SERVICES, 
@@ -20,6 +20,7 @@ import {
   DEFAULT_SOCIAL_LINKS,
   DEFAULT_SITE_CONFIG
 } from "./data";
+import { HeroContent, AboutContent, ContactContent } from "./types";
 
 const DEFAULT_HERO_CONTENT: HeroContent = {
   topLabel: "00 // SWISS DESIGN STUDIO ZURICH",
@@ -48,15 +49,6 @@ const DEFAULT_CONTACT_CONTENT: ContactContent = {
   emailLabel: "hello@alexreyes.com"
 };
 
-const DEFAULT_VISIBILITY: SectionVisibility = {
-  work: true,
-  services: true,
-  experience: true,
-  faq: true,
-  about: true,
-  contact: true
-};
-
 export default function App() {
   // Check hash on initialization
   const [isAdminView, setIsAdminView] = useState(() => {
@@ -77,135 +69,29 @@ export default function App() {
     return window.location.hash === "#projects";
   });
 
-  // Initialize Hero Content from LocalStorage or default fallback
-  const [heroContent, setHeroContent] = useState<HeroContent>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_hero_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load CMS content", e);
-    }
-    return DEFAULT_HERO_CONTENT;
-  });
-
-  // Initialize Projects Content from LocalStorage or default fallback
-  const [projectsContent, setProjectsContent] = useState<Project[]>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_projects_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load Projects CMS content", e);
-    }
-    return DEFAULT_PROJECTS;
-  });
-
-  // Initialize Services Content from LocalStorage or default fallback
-  const [servicesContent, setServicesContent] = useState<Service[]>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_services_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load Services CMS content", e);
-    }
-    return DEFAULT_SERVICES;
-  });
-
-  // Initialize Experiences Content from LocalStorage or default fallback
-  const [experiencesContent, setExperiencesContent] = useState<ExperienceItem[]>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_experiences_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load Experiences CMS content", e);
-    }
-    return DEFAULT_EXPERIENCES;
-  });
-
-  // Initialize FAQs Content from LocalStorage or default fallback
-  const [faqsContent, setFaqsContent] = useState<FAQItem[]>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_faqs_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load FAQs CMS content", e);
-    }
-    return DEFAULT_FAQS;
-  });
-
-  // Initialize About Bio Content from LocalStorage or default fallback
-  const [aboutContent, setAboutContent] = useState<AboutContent>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_about_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load About Bio CMS content", e);
-    }
-    return DEFAULT_ABOUT_CONTENT;
-  });
-
-  // Initialize Contact Dialogue Content from LocalStorage or default fallback
-  const [contactContent, setContactContent] = useState<ContactContent>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_contact_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load Contact Dialogue CMS content", e);
-    }
-    return DEFAULT_CONTACT_CONTENT;
-  });
-
-  // Initialize Section Visibility from LocalStorage or default fallback
-  const [sectionVisibility, setSectionVisibility] = useState<SectionVisibility>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_visibility_cms");
-      if (saved) {
-        return { ...DEFAULT_VISIBILITY, ...JSON.parse(saved) };
-      }
-    } catch (e) {
-      console.error("Failed to load Section Visibility CMS content", e);
-    }
-    return DEFAULT_VISIBILITY;
-  });
-
-  // Initialize Social Links Content from LocalStorage or default fallback
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_socials_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load Social Links CMS content", e);
-    }
-    return DEFAULT_SOCIAL_LINKS;
-  });
-
-  // Initialize Site Config from LocalStorage or default fallback
-  const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
-    try {
-      const saved = localStorage.getItem("stelvio_site_config_cms");
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.error("Failed to load Site Config CMS content", e);
-    }
-    return DEFAULT_SITE_CONFIG;
-  });
+  const {
+    loading,
+    heroContent,
+    projectsContent,
+    servicesContent,
+    experiencesContent,
+    faqsContent,
+    aboutContent,
+    contactContent,
+    sectionVisibility,
+    socialLinks,
+    siteConfig,
+    handleUpdateHero,
+    handleUpdateProjects,
+    handleUpdateServices,
+    handleUpdateExperiences,
+    handleUpdateFaqs,
+    handleUpdateAbout,
+    handleUpdateContact,
+    handleUpdateVisibility,
+    handleUpdateSocialLinks,
+    handleUpdateSiteConfig,
+  } = useSupabaseCMS();
 
   // Effect to update favicon
   useEffect(() => {
@@ -219,106 +105,6 @@ export default function App() {
       link.href = siteConfig.faviconUrl;
     }
   }, [siteConfig.faviconUrl]);
-
-  // Save changes to local storage when socialLinks updates
-  const handleUpdateSocialLinks = (updatedSocialLinks: SocialLink[]) => {
-    setSocialLinks(updatedSocialLinks);
-    try {
-      localStorage.setItem("stelvio_socials_cms", JSON.stringify(updatedSocialLinks));
-    } catch (e) {
-      console.error("Failed to save Social Links CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when siteConfig updates
-  const handleUpdateSiteConfig = (updatedConfig: SiteConfig) => {
-    setSiteConfig(updatedConfig);
-    try {
-      localStorage.setItem("stelvio_site_config_cms", JSON.stringify(updatedConfig));
-    } catch (e) {
-      console.error("Failed to save Site Config CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when sectionVisibility updates
-  const handleUpdateVisibility = (updatedVisibility: SectionVisibility) => {
-    setSectionVisibility(updatedVisibility);
-    try {
-      localStorage.setItem("stelvio_visibility_cms", JSON.stringify(updatedVisibility));
-    } catch (e) {
-      console.error("Failed to save Section Visibility CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when heroContent updates
-  const handleUpdate = (updatedContent: HeroContent) => {
-    setHeroContent(updatedContent);
-    try {
-      localStorage.setItem("stelvio_hero_cms", JSON.stringify(updatedContent));
-    } catch (e) {
-      console.error("Failed to save CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when projectsContent updates
-  const handleUpdateProjects = (updatedProjects: Project[]) => {
-    setProjectsContent(updatedProjects);
-    try {
-      localStorage.setItem("stelvio_projects_cms", JSON.stringify(updatedProjects));
-    } catch (e) {
-      console.error("Failed to save Projects CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when servicesContent updates
-  const handleUpdateServices = (updatedServices: Service[]) => {
-    setServicesContent(updatedServices);
-    try {
-      localStorage.setItem("stelvio_services_cms", JSON.stringify(updatedServices));
-    } catch (e) {
-      console.error("Failed to save Services CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when experiencesContent updates
-  const handleUpdateExperiences = (updatedExperiences: ExperienceItem[]) => {
-    setExperiencesContent(updatedExperiences);
-    try {
-      localStorage.setItem("stelvio_experiences_cms", JSON.stringify(updatedExperiences));
-    } catch (e) {
-      console.error("Failed to save Experiences CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when faqsContent updates
-  const handleUpdateFaqs = (updatedFaqs: FAQItem[]) => {
-    setFaqsContent(updatedFaqs);
-    try {
-      localStorage.setItem("stelvio_faqs_cms", JSON.stringify(updatedFaqs));
-    } catch (e) {
-      console.error("Failed to save FAQs CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when aboutContent updates
-  const handleUpdateAbout = (updatedAbout: AboutContent) => {
-    setAboutContent(updatedAbout);
-    try {
-      localStorage.setItem("stelvio_about_cms", JSON.stringify(updatedAbout));
-    } catch (e) {
-      console.error("Failed to save About Bio CMS content", e);
-    }
-  };
-
-  // Save changes to local storage when contactContent updates
-  const handleUpdateContact = (updatedContact: ContactContent) => {
-    setContactContent(updatedContact);
-    try {
-      localStorage.setItem("stelvio_contact_cms", JSON.stringify(updatedContact));
-    } catch (e) {
-      console.error("Failed to save Contact Dialogue CMS content", e);
-    }
-  };
 
   // Sync state with URL hash updates dynamically
   useEffect(() => {
@@ -385,12 +171,21 @@ export default function App() {
     }
   }, []);
 
+  // Show a minimalist loading screen while fetching CMS data initially
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center font-mono text-xs uppercase tracking-widest text-[#0A0A0A]">
+        Loading System Environment...
+      </div>
+    );
+  }
+
   // Isolate Admin view entirely to "behind" a secure entry path
   if (isAdminView) {
     return (
       <AdminPanel
         content={heroContent}
-        onUpdate={handleUpdate}
+        onUpdate={handleUpdateHero}
         defaultContent={DEFAULT_HERO_CONTENT}
         projects={projectsContent}
         onUpdateProjects={handleUpdateProjects}
@@ -490,5 +285,3 @@ export default function App() {
     </div>
   );
 }
-
-

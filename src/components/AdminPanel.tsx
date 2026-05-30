@@ -146,7 +146,11 @@ export default function AdminPanel({
   // Site Config Temp State
   const [tempSiteConfig, setTempSiteConfig] = useState<SiteConfig>({ ...siteConfig });
 
+  // Section Visibility Temp State
+  const [tempVisibility, setTempVisibility] = useState<SectionVisibility>({ ...visibility });
+
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Drag and Drop state
   const [draggedItem, setDraggedItem] = useState<{ type: string, index: number } | null>(null);
@@ -231,6 +235,10 @@ export default function AdminPanel({
     setTempSiteConfig({ ...siteConfig });
   }, [siteConfig]);
 
+  useEffect(() => {
+    setTempVisibility({ ...visibility });
+  }, [visibility]);
+
   // Find currently selected structures in CMS dropdowns
   const selectedProject = tempProjects.find((p) => p.id === selectedProjectId) || tempProjects[0];
   const selectedService = tempServices.find((s) => s.id === selectedServiceId) || tempServices[0];
@@ -259,25 +267,21 @@ export default function AdminPanel({
   const handleHeroChange = (field: keyof HeroContent, value: string) => {
     const next = { ...tempContent, [field]: value };
     setTempContent(next);
-    onUpdate(next);
   };
 
   const handleProjectFieldChange = (id: string, field: keyof Project, value: any) => {
     const next = tempProjects.map((proj) => (proj.id === id ? { ...proj, [field]: value } : proj));
     setTempProjects(next);
-    onUpdateProjects(next);
   };
 
   const handleProjectGalleryChange = (id: string, gallery: string[]) => {
     const next = tempProjects.map((proj) => (proj.id === id ? { ...proj, gallery } : proj));
     setTempProjects(next);
-    onUpdateProjects(next);
   };
 
-  const handleServiceFieldChange = (id: string, field: keyof Service, value: string) => {
+  const handleServiceFieldChange = (id: string, field: keyof Service, value: any) => {
     const next = tempServices.map((s) => (s.id === id ? { ...s, [field]: value } : s));
     setTempServices(next);
-    onUpdateServices(next);
   };
 
   const handleAddProject = () => {
@@ -293,7 +297,6 @@ export default function AdminPanel({
     };
     const next = [...tempProjects, newProj];
     setTempProjects(next);
-    onUpdateProjects(next);
     setSelectedProjectId(newProj.id);
   };
 
@@ -304,7 +307,6 @@ export default function AdminPanel({
     }
     const filtered = tempProjects.filter((p) => p.id !== id);
     setTempProjects(filtered);
-    onUpdateProjects(filtered);
     if (selectedProjectId === id) {
       const remainingId = filtered[0]?.id || "";
       setSelectedProjectId(remainingId);
@@ -322,7 +324,6 @@ export default function AdminPanel({
     };
     const next = [...tempServices, newSer];
     setTempServices(next);
-    onUpdateServices(next);
     setSelectedServiceId(newSer.id);
   };
 
@@ -333,17 +334,15 @@ export default function AdminPanel({
     }
     const filtered = tempServices.filter((s) => s.id !== id);
     setTempServices(filtered);
-    onUpdateServices(filtered);
     if (selectedServiceId === id) {
       const remainingId = filtered[0]?.id || "";
       setSelectedServiceId(remainingId);
     }
   };
 
-  const handleExperienceFieldChange = (id: string, field: keyof ExperienceItem, value: string) => {
+  const handleExperienceFieldChange = (id: string, field: keyof ExperienceItem, value: any) => {
     const next = tempExperiences.map((e) => (e.id === id ? { ...e, [field]: value } : e));
     setTempExperiences(next);
-    onUpdateExperiences(next);
   };
 
   const handleAddExperience = () => {
@@ -357,7 +356,6 @@ export default function AdminPanel({
     };
     const next = [...tempExperiences, newExp];
     setTempExperiences(next);
-    onUpdateExperiences(next);
     setSelectedExperienceId(newExp.id);
   };
 
@@ -368,17 +366,15 @@ export default function AdminPanel({
     }
     const filtered = tempExperiences.filter((e) => e.id !== id);
     setTempExperiences(filtered);
-    onUpdateExperiences(filtered);
     if (selectedExperienceId === id) {
       const remainingId = filtered[0]?.id || "";
       setSelectedExperienceId(remainingId);
     }
   };
 
-  const handleFaqFieldChange = (id: string, field: keyof FAQItem, value: string) => {
+  const handleFaqFieldChange = (id: string, field: keyof FAQItem, value: any) => {
     const next = tempFaqs.map((f) => (f.id === id ? { ...f, [field]: value } : f));
     setTempFaqs(next);
-    onUpdateFaqs(next);
   };
 
   const handleAddFaq = () => {
@@ -389,7 +385,6 @@ export default function AdminPanel({
     };
     const next = [...tempFaqs, newFaq];
     setTempFaqs(next);
-    onUpdateFaqs(next);
     setSelectedFaqId(newFaq.id);
   };
 
@@ -400,7 +395,6 @@ export default function AdminPanel({
     }
     const filtered = tempFaqs.filter((f) => f.id !== id);
     setTempFaqs(filtered);
-    onUpdateFaqs(filtered);
     if (selectedFaqId === id) {
       const remainingId = filtered[0]?.id || "";
       setSelectedFaqId(remainingId);
@@ -410,19 +404,16 @@ export default function AdminPanel({
   const handleAboutFieldChange = (field: keyof AboutContent, value: string) => {
     const next = { ...tempAbout, [field]: value };
     setTempAbout(next);
-    onUpdateAbout(next);
   };
 
   const handleContactFieldChange = (field: keyof ContactContent, value: string) => {
     const next = { ...tempContact, [field]: value };
     setTempContact(next);
-    onUpdateContact(next);
   };
 
   const handleSocialLinkFieldChange = (id: string, field: keyof SocialLink, value: any) => {
     const next = tempSocialLinks.map((link) => (link.id === id ? { ...link, [field]: value } : link));
     setTempSocialLinks(next);
-    onUpdateSocialLinks(next);
   };
 
   const handleAddSocialLink = () => {
@@ -435,13 +426,11 @@ export default function AdminPanel({
     };
     const next = [...tempSocialLinks, newLink];
     setTempSocialLinks(next);
-    onUpdateSocialLinks(next);
   };
 
   const handleDeleteSocialLink = (id: string) => {
     const next = tempSocialLinks.filter((link) => link.id !== id);
     setTempSocialLinks(next);
-    onUpdateSocialLinks(next);
   };
 
   const handleDragStart = (e: React.DragEvent, type: string, index: number) => {
@@ -467,25 +456,21 @@ export default function AdminPanel({
       const [removed] = newArr.splice(draggedItem.index, 1);
       newArr.splice(targetIndex, 0, removed);
       setTempProjects(newArr);
-      onUpdateProjects(newArr);
     } else if (type === "services") {
       const newArr = [...tempServices];
       const [removed] = newArr.splice(draggedItem.index, 1);
       newArr.splice(targetIndex, 0, removed);
       setTempServices(newArr);
-      onUpdateServices(newArr);
     } else if (type === "experiences") {
       const newArr = [...tempExperiences];
       const [removed] = newArr.splice(draggedItem.index, 1);
       newArr.splice(targetIndex, 0, removed);
       setTempExperiences(newArr);
-      onUpdateExperiences(newArr);
     } else if (type === "faqs") {
       const newArr = [...tempFaqs];
       const [removed] = newArr.splice(draggedItem.index, 1);
       newArr.splice(targetIndex, 0, removed);
       setTempFaqs(newArr);
-      onUpdateFaqs(newArr);
     }
     setDraggedItem(null);
   };
@@ -506,108 +491,177 @@ export default function AdminPanel({
     e.target.value = "";
   };
 
-  const handleSave = () => {
-    onUpdate(tempContent);
-    onUpdateProjects(tempProjects);
-    onUpdateServices(tempServices);
-    onUpdateExperiences(tempExperiences);
-    onUpdateFaqs(tempFaqs);
-    onUpdateAbout(tempAbout);
-    onUpdateContact(tempContact);
-    onUpdateSocialLinks(tempSocialLinks);
-    onUpdateSiteConfig(tempSiteConfig);
-    setSaveSuccess(true);
-    setTimeout(() => {
-      setSaveSuccess(false);
-    }, 2000);
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await Promise.all([
+        onUpdate(tempContent),
+        onUpdateProjects(tempProjects),
+        onUpdateServices(tempServices),
+        onUpdateExperiences(tempExperiences),
+        onUpdateFaqs(tempFaqs),
+        onUpdateAbout(tempAbout),
+        onUpdateContact(tempContact),
+        onUpdateSocialLinks(tempSocialLinks),
+        onUpdateSiteConfig(tempSiteConfig),
+        onUpdateVisibility(tempVisibility)
+      ]);
+      setSaveSuccess(true);
+      setTimeout(() => {
+        setSaveSuccess(false);
+      }, 3000);
+    } catch (err) {
+      console.error("Error applying changes:", err);
+      alert("Failed to save changes. Please check your internet connection.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleResetToDefault = () => {
+  const handleResetToDefault = async () => {
     if (activeTab === "hero") {
       if (window.confirm("Are you sure you want to reset the hero content to its original Swiss Design Studio defaults?")) {
-        setTempContent({ ...defaultContent });
-        onUpdate(defaultContent);
-        setTempSiteConfig({ ...defaultSiteConfig });
-        onUpdateSiteConfig(defaultSiteConfig);
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
+        setIsSaving(true);
+        try {
+          setTempContent({ ...defaultContent });
+          setTempSiteConfig({ ...defaultSiteConfig });
+          await Promise.all([
+            onUpdate(defaultContent),
+            onUpdateSiteConfig(defaultSiteConfig)
+          ]);
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
+        }
       }
     } else if (activeTab === "projects") {
       if (window.confirm("Are you sure you want to reset all project highlights back to defaults? This will erase any custom case studies you created.")) {
-        setTempProjects([...defaultProjects]);
-        onUpdateProjects(defaultProjects);
-        if (defaultProjects.length > 0) {
-          setSelectedProjectId(defaultProjects[0].id);
+        setIsSaving(true);
+        try {
+          setTempProjects([...defaultProjects]);
+          await onUpdateProjects(defaultProjects);
+          if (defaultProjects.length > 0) {
+            setSelectedProjectId(defaultProjects[0].id);
+          }
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
         }
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
       }
     } else if (activeTab === "services") {
       if (window.confirm("Are you sure you want to reset all capabilities back to defaults? This will erase any custom services you created.")) {
-        setTempServices([...defaultServices]);
-        onUpdateServices(defaultServices);
-        if (defaultServices.length > 0) {
-          setSelectedServiceId(defaultServices[0].id);
+        setIsSaving(true);
+        try {
+          setTempServices([...defaultServices]);
+          await onUpdateServices(defaultServices);
+          if (defaultServices.length > 0) {
+            setSelectedServiceId(defaultServices[0].id);
+          }
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
         }
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
       }
     } else if (activeTab === "experiences") {
       if (window.confirm("Are you sure you want to reset all experiences to defaults?")) {
-        setTempExperiences([...defaultExperiences]);
-        onUpdateExperiences(defaultExperiences);
-        if (defaultExperiences.length > 0) {
-          setSelectedExperienceId(defaultExperiences[0].id);
+        setIsSaving(true);
+        try {
+          setTempExperiences([...defaultExperiences]);
+          await onUpdateExperiences(defaultExperiences);
+          if (defaultExperiences.length > 0) {
+            setSelectedExperienceId(defaultExperiences[0].id);
+          }
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
         }
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
       }
     } else if (activeTab === "faqs") {
       if (window.confirm("Are you sure you want to reset all FAQs to defaults?")) {
-        setTempFaqs([...defaultFaqs]);
-        onUpdateFaqs(defaultFaqs);
-        if (defaultFaqs.length > 0) {
-          setSelectedFaqId(defaultFaqs[0].id);
+        setIsSaving(true);
+        try {
+          setTempFaqs([...defaultFaqs]);
+          await onUpdateFaqs(defaultFaqs);
+          if (defaultFaqs.length > 0) {
+            setSelectedFaqId(defaultFaqs[0].id);
+          }
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
         }
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
       }
     } else if (activeTab === "about") {
       if (window.confirm("Are you sure you want to reset the biography & philosophy to defaults?")) {
-        setTempAbout({ ...defaultAbout });
-        onUpdateAbout(defaultAbout);
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
+        setIsSaving(true);
+        try {
+          setTempAbout({ ...defaultAbout });
+          await onUpdateAbout(defaultAbout);
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
+        }
       }
     } else if (activeTab === "contact") {
       if (window.confirm("Are you sure you want to reset the contact dialogue banner to defaults?")) {
-        setTempContact({ ...defaultContact });
-        onUpdateContact(defaultContact);
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
+        setIsSaving(true);
+        try {
+          setTempContact({ ...defaultContact });
+          await onUpdateContact(defaultContact);
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
+        }
       }
     } else if (activeTab === "socials") {
       if (window.confirm("Are you sure you want to reset all social media links to defaults?")) {
-        setTempSocialLinks([...defaultSocialLinks]);
-        onUpdateSocialLinks(defaultSocialLinks);
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-        }, 2000);
+        setIsSaving(true);
+        try {
+          setTempSocialLinks([...defaultSocialLinks]);
+          await onUpdateSocialLinks(defaultSocialLinks);
+          setSaveSuccess(true);
+          setTimeout(() => {
+            setSaveSuccess(false);
+          }, 2000);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsSaving(false);
+        }
       }
     }
   };
@@ -950,7 +1004,6 @@ export default function AdminPanel({
                               onChange={(e) => {
                                 const next = { ...tempSiteConfig, faviconUrl: e.target.value };
                                 setTempSiteConfig(next);
-                                onUpdateSiteConfig(next);
                               }}
                               className="flex-1 bg-[#FFFFFF] border border-[#E5E5E5] px-4 py-3 font-sans text-sm text-[#0A0A0A] focus:border-[#0A0A0A] focus:outline-none transition-colors duration-200"
                               placeholder="e.g. /vite.svg or https://example.com/favicon.ico"
@@ -965,7 +1018,6 @@ export default function AdminPanel({
                                 onChange={(e) => handleImageUpload(e, (base64) => {
                                   const next = { ...tempSiteConfig, faviconUrl: base64 };
                                   setTempSiteConfig(next);
-                                  onUpdateSiteConfig(next);
                                 })} 
                               />
                             </label>
@@ -1003,7 +1055,7 @@ export default function AdminPanel({
                                     <span className="font-sans font-semibold text-xs text-[#0A0A0A]">
                                       {sec.title}
                                     </span>
-                                    {visibility[sec.key as keyof SectionVisibility] ? (
+                                    {tempVisibility[sec.key as keyof SectionVisibility] ? (
                                       <span className="bg-emerald-50 text-emerald-700 text-[8px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-[2px] font-bold">
                                         ON
                                       </span>
@@ -1020,19 +1072,19 @@ export default function AdminPanel({
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    onUpdateVisibility({
-                                      ...visibility,
-                                      [sec.key]: !visibility[sec.key as keyof SectionVisibility]
+                                    setTempVisibility({
+                                      ...tempVisibility,
+                                      [sec.key]: !tempVisibility[sec.key as keyof SectionVisibility]
                                     });
                                   }}
                                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                                    visibility[sec.key as keyof SectionVisibility] ? 'bg-[#0A0A0A]' : 'bg-[#E5E5E5]'
+                                    tempVisibility[sec.key as keyof SectionVisibility] ? 'bg-[#0A0A0A]' : 'bg-[#E5E5E5]'
                                   }`}
                                   id={`toggle-sec-${sec.key}`}
                                 >
                                   <span
                                     className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs transition duration-205 ease-in-out ${
-                                      visibility[sec.key as keyof SectionVisibility] ? 'translate-x-4' : 'translate-x-0'
+                                      tempVisibility[sec.key as keyof SectionVisibility] ? 'translate-x-4' : 'translate-x-0'
                                     }`}
                                   />
                                 </button>
@@ -2165,13 +2217,25 @@ export default function AdminPanel({
                     {/* Apply changes button */}
                     <button
                       type="button"
+                      disabled={isSaving}
                       onClick={handleSave}
-                      className="flex items-center justify-center space-x-1.5 bg-[#0A0A0A] text-[#FFFFFF] hover:bg-neutral-800 font-sans font-medium text-xs uppercase tracking-wider py-4 transition-colors duration-200 cursor-pointer shadow-sm select-none"
+                      className={`flex items-center justify-center space-x-1.5 bg-[#0A0A0A] text-[#FFFFFF] hover:bg-neutral-800 font-sans font-medium text-xs uppercase tracking-wider py-4 transition-colors duration-200 cursor-pointer shadow-sm select-none ${
+                        isSaving ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                       style={{ minHeight: "44px" }}
                       id="btn-cms-save"
                     >
-                      <Check className="h-4 w-4 text-white" />
-                      <span>Apply Changes</span>
+                      {isSaving ? (
+                        <span className="flex items-center space-x-2">
+                          <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          <span>Saving Changes...</span>
+                        </span>
+                      ) : (
+                        <>
+                          <Check className="h-4 w-4 text-white" />
+                          <span>Apply Changes</span>
+                        </>
+                      )}
                     </button>
                   </div>
 
@@ -2264,7 +2328,7 @@ export default function AdminPanel({
                           { key: "about", label: "05 // Biography & About" },
                           { key: "contact", label: "06 // Dialogue & Contact Banner" },
                         ].map((item) => {
-                          const isVisible = visibility[item.key as keyof SectionVisibility];
+                          const isVisible = tempVisibility[item.key as keyof SectionVisibility];
                           return (
                             <div 
                               key={item.key} 
