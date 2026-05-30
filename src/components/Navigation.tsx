@@ -37,14 +37,14 @@ export default function Navigation({ visibility }: NavigationProps) {
 
   return (
     <>
-      <nav 
+      <nav
         id="navbar"
         className="fixed top-0 left-0 right-0 z-50 bg-[#FFFFFF]/80 backdrop-blur-md border-b border-[#E5E5E5] h-16 transition-all duration-300"
       >
         <div className="max-w-[1100px] mx-auto h-full px-6 md:px-12 flex items-center justify-between">
           {/* Logo / Name */}
-          <a 
-            href="#" 
+          <a
+            href="#"
             className="font-sans font-bold tracking-tight text-[#0A0A0A] text-lg hover:opacity-60 transition-opacity duration-200"
             id="nav-logo"
           >
@@ -81,7 +81,7 @@ export default function Navigation({ visibility }: NavigationProps) {
       {/* Mobile Navigation Drawer Overlay inside AnimatePresence */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             id="mobile-drawer"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "100vh" }}
@@ -106,11 +106,11 @@ export default function Navigation({ visibility }: NavigationProps) {
               ))}
               <div className="pt-8">
                 <p className="font-sans text-xs uppercase tracking-widest text-[#6B6B6B] mb-2 font-semibold">Available for projects</p>
-                <a 
-                  href="mailto:hello@alexreyes.com" 
+                <a
+                  href="mailto:geraldyyobel17@gmail.com"
                   className="font-mono text-sm text-[#0A0A0A] underline"
                 >
-                  hello@alexreyes.com
+                  geraldyyobel17@gmail.com
                 </a>
               </div>
             </div>
