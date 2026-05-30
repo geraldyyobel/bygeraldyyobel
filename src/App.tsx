@@ -229,7 +229,11 @@ export default function App() {
   return (
     <div className="font-sans antialiased text-[#0A0A0A] bg-[#FFFFFF] min-h-screen selection:bg-neutral-900 selection:text-white">
       {/* 1. Navigation Header */}
-      <Navigation visibility={sectionVisibility} />
+      <Navigation 
+        visibility={sectionVisibility} 
+        brandName={heroContent.companyName}
+        contactEmail={contactContent.email}
+      />
 
       {/* Main Container */}
       <main className="w-full">

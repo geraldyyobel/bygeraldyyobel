@@ -5,9 +5,11 @@ import { SectionVisibility } from "../types";
 
 interface NavigationProps {
   visibility?: SectionVisibility;
+  brandName?: string;
+  contactEmail?: string;
 }
 
-export default function Navigation({ visibility }: NavigationProps) {
+export default function Navigation({ visibility, brandName = "Geraldy Yobel", contactEmail = "geraldyyobel17@gmail.com" }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -48,7 +50,7 @@ export default function Navigation({ visibility }: NavigationProps) {
             className="font-sans font-bold tracking-tight text-[#0A0A0A] text-lg hover:opacity-60 transition-opacity duration-200"
             id="nav-logo"
           >
-            Geraldy Yobel
+            {brandName}
           </a>
 
           {/* Desktop Navigation */}
@@ -107,10 +109,10 @@ export default function Navigation({ visibility }: NavigationProps) {
               <div className="pt-8">
                 <p className="font-sans text-xs uppercase tracking-widest text-[#6B6B6B] mb-2 font-semibold">Available for projects</p>
                 <a
-                  href="mailto:geraldyyobel17@gmail.com"
+                  href={`mailto:${contactEmail}`}
                   className="font-mono text-sm text-[#0A0A0A] underline"
                 >
-                  geraldyyobel17@gmail.com
+                  {contactEmail}
                 </a>
               </div>
             </div>
